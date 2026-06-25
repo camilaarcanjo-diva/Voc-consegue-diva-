@@ -1,0 +1,1884 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✨ Princesinha App ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #F9C4D2;
+    --rose-deep: #F4A0B8;
+    --lavender: #DDD0F0;
+    --lavender-deep: #C4AEE8;
+    --mint: #C8EAD8;
+    --mint-deep: #A8D8BA;
+    --peach: #FFD9C0;
+    --peach-deep: #FFBEA0;
+    --cream: #FFF8F0;
+    --cream-dark: #FFF0E8;
+    --text: #5A3E5A;
+    --text-light: #9070A0;
+    --white: #FFFFFF;
+    --shadow: 0 4px 20px rgba(180,120,180,0.12);
+    --shadow-hover: 0 8px 30px rgba(180,120,180,0.2);
+    --radius: 20px;
+    --radius-sm: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #FFF0F8 0%, #F0EAFF 50%, #E8F8F0 100%);
+    min-height: 100vh;
+    color: var(--text);
+  }
+
+  /* ===== HEADER ===== */
+  .app-header {
+    background: linear-gradient(135deg, var(--rose) 0%, var(--lavender) 100%);
+    padding: 16px 20px 0;
+    text-align: center;
+    box-shadow: 0 2px 20px rgba(200,150,200,0.2);
+  }
+
+  .app-title {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.5px;
+  }
+
+  .app-title span { font-size: 1.1rem; }
+
+  .xp-mini-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    margin: 8px 0 12px;
+    font-size: 0.78rem;
+    color: var(--text-light);
+    font-weight: 600;
+  }
+
+  .xp-mini-track {
+    width: 120px;
+    height: 8px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .xp-mini-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--rose-deep), var(--lavender-deep));
+    border-radius: 99px;
+    transition: width 0.5s ease;
+  }
+
+  /* ===== TABS ===== */
+  .tabs {
+    display: flex;
+    overflow-x: auto;
+    gap: 2px;
+    padding: 0 4px;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+
+  .tab {
+    flex-shrink: 0;
+    padding: 10px 14px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    opacity: 0.6;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .tab.active {
+    opacity: 1;
+    border-bottom-color: var(--text);
+    background: rgba(255,255,255,0.3);
+    border-radius: 8px 8px 0 0;
+  }
+
+  /* ===== MAIN CONTENT ===== */
+  .main {
+    padding: 20px 16px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+  }
+
+  .card-title {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ===== BUTTONS ===== */
+  .btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 99px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--rose-deep), var(--lavender-deep));
+    color: white;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+
+  .btn-sm {
+    padding: 6px 14px;
+    font-size: 0.78rem;
+  }
+
+  .btn-ghost {
+    background: var(--cream-dark);
+    color: var(--text);
+  }
+
+  /* ===== INPUTS ===== */
+  input[type="text"], input[type="time"], input[type="number"], input[type="date"], textarea, select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid var(--lavender);
+    border-radius: var(--radius-sm);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text);
+    background: var(--cream);
+    outline: none;
+    transition: border 0.2s;
+  }
+  input:focus, textarea:focus, select:focus { border-color: var(--lavender-deep); }
+  textarea { resize: vertical; min-height: 60px; }
+
+  /* ===== TIMELINE ===== */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--rose), var(--lavender), var(--mint));
+    border-radius: 2px;
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -23px;
+    top: 6px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--rose-deep);
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px var(--rose);
+    flex-shrink: 0;
+  }
+
+  .timeline-item.done .timeline-dot { background: var(--mint-deep); box-shadow: 0 0 0 2px var(--mint); }
+
+  .timeline-content {
+    background: var(--cream);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    flex: 1;
+    transition: all 0.2s;
+    border: 1.5px solid transparent;
+  }
+
+  .timeline-item.done .timeline-content {
+    opacity: 0.6;
+    border-color: var(--mint);
+    background: #F0FFF8;
+  }
+
+  .timeline-content .time-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--lavender-deep);
+    margin-bottom: 2px;
+  }
+
+  .timeline-content .task-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+
+  .timeline-item.done .task-name { text-decoration: line-through; }
+
+  .timeline-content .task-tag {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+
+  .tag-pessoal { background: var(--rose); color: var(--text); }
+  .tag-profissional { background: var(--lavender); color: var(--text); }
+
+  .timeline-check {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--rose-deep);
+    background: white;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    margin-top: 4px;
+  }
+  .timeline-check.checked { background: var(--mint-deep); border-color: var(--mint-deep); color: white; }
+
+  .xp-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--lavender-deep);
+    margin-top: 4px;
+  }
+
+  /* empty state */
+  .empty-state {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--text-light);
+    font-size: 0.85rem;
+  }
+  .empty-state .emoji { font-size: 2.5rem; display: block; margin-bottom: 8px; }
+
+  /* add task form */
+  .add-form {
+    background: var(--cream-dark);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    margin-top: 12px;
+    display: none;
+  }
+  .add-form.open { display: block; }
+  .form-row { display: flex; gap: 8px; margin-bottom: 8px; }
+  .form-row > * { flex: 1; }
+
+  /* ===== PRINCESS ROOM ===== */
+  .princess-stage {
+    text-align: center;
+    padding: 10px 0 20px;
+    position: relative;
+  }
+
+  /* AURA / SCENE */
+  .avatar-scene {
+    position: relative;
+    width: 200px;
+    height: 220px;
+    margin: 0 auto 16px;
+  }
+
+  .aura-ring {
+    position: absolute;
+    border-radius: 50%;
+    transition: all 0.8s ease;
+  }
+  .aura-ring-1 {
+    inset: 20px;
+    opacity: 0.18;
+    animation: aura-pulse 4s ease-in-out infinite;
+  }
+  .aura-ring-2 {
+    inset: 5px;
+    opacity: 0.10;
+    animation: aura-pulse 4s ease-in-out infinite 1s;
+  }
+  .aura-ring-3 {
+    inset: -12px;
+    opacity: 0.07;
+    animation: aura-pulse 4s ease-in-out infinite 2s;
+  }
+
+  @keyframes aura-pulse {
+    0%, 100% { transform: scale(1); opacity: inherit; }
+    50% { transform: scale(1.06); }
+  }
+
+  /* floating particles */
+  .particles {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    animation: float-particle linear infinite;
+    opacity: 0;
+  }
+  @keyframes float-particle {
+    0%   { transform: translateY(0) scale(1); opacity: 0; }
+    20%  { opacity: 1; }
+    80%  { opacity: 0.6; }
+    100% { transform: translateY(-180px) scale(0.3); opacity: 0; }
+  }
+
+  /* SVG CHARACTER */
+  .avatar-svg-wrap {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.6s ease;
+    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.1));
+  }
+
+  /* phase labels above character */
+  .phase-label {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 99px;
+    display: inline-block;
+    margin-bottom: 6px;
+    transition: all 0.5s;
+  }
+
+  .level-badge {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .princess-title {
+    font-size: 1rem;
+    font-weight: 800;
+    font-family: 'Quicksand', sans-serif;
+    margin-bottom: 6px;
+    transition: all 0.5s;
+  }
+
+  .princess-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    font-style: italic;
+    margin-bottom: 14px;
+  }
+
+  .xp-bar-container { margin-bottom: 20px; }
+  .xp-label {
+    display: flex; justify-content: space-between;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 6px;
+  }
+  .xp-track {
+    height: 14px;
+    background: var(--cream-dark);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .xp-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 0.5s ease, background 1s ease;
+    position: relative;
+  }
+  .xp-fill::after {
+    content: '✦';
+    position: absolute;
+    right: -2px; top: -5px;
+    font-size: 1.1rem;
+    transition: all 0.5s;
+  }
+
+  .evolutions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .evo-card {
+    background: var(--cream);
+    border-radius: var(--radius-sm);
+    padding: 12px 8px;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .evo-card.unlocked { border-color: var(--lavender-deep); background: var(--lavender); }
+  .evo-card.current { border-color: var(--rose-deep); background: var(--rose); box-shadow: var(--shadow); }
+  .evo-card .evo-emoji { font-size: 1.8rem; display: block; margin-bottom: 4px; }
+  .evo-card .evo-name { font-size: 0.68rem; font-weight: 700; color: var(--text); }
+  .evo-card .evo-level { font-size: 0.62rem; color: var(--text-light); }
+  .evo-card.locked { opacity: 0.4; }
+
+  /* ===== KANBAN ===== */
+  .kanban-board {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .kanban-board::-webkit-scrollbar { height: 4px; }
+  .kanban-board::-webkit-scrollbar-thumb { background: var(--lavender); border-radius: 2px; }
+
+  .kanban-col {
+    flex-shrink: 0;
+    width: 220px;
+    background: var(--cream-dark);
+    border-radius: var(--radius);
+    padding: 14px;
+  }
+
+  .kanban-col-title {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .kanban-count {
+    background: var(--lavender);
+    color: var(--text);
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    font-size: 0.65rem;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .kanban-card {
+    background: white;
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--rose);
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .kanban-card:hover { transform: translateY(-2px); }
+  .kanban-card.instagram { border-left-color: #F4A0B8; }
+  .kanban-card.tiktok { border-left-color: #A8D8BA; }
+  .kanban-card.youtube { border-left-color: #C4AEE8; }
+  .kanban-card.outro { border-left-color: #FFBEA0; }
+
+  .kcard-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; }
+  .kcard-deadline { font-size: 0.7rem; color: var(--text-light); margin-bottom: 6px; }
+  .kcard-tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .tag-instagram { background: #FFE0EC; color: #D06080; }
+  .tag-tiktok { background: #D0F0E0; color: #308050; }
+  .tag-youtube { background: #E8E0FF; color: #6040A0; }
+  .tag-outro { background: #FFE8D0; color: #A05020; }
+
+  .kcard-checklist { margin-top: 8px; }
+  .kcard-check-item {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin-bottom: 4px;
+    cursor: pointer;
+  }
+  .kcard-check-item input[type="checkbox"] { accent-color: var(--lavender-deep); }
+  .kcard-check-item.checked-item { text-decoration: line-through; opacity: 0.5; }
+
+  .kcard-progress {
+    height: 4px;
+    background: var(--cream-dark);
+    border-radius: 99px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+  .kcard-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--rose-deep), var(--lavender-deep));
+    border-radius: 99px;
+    transition: width 0.3s;
+  }
+
+  .move-btn {
+    font-size: 0.65rem;
+    padding: 3px 8px;
+    background: var(--cream-dark);
+    border: none;
+    border-radius: 99px;
+    color: var(--text-light);
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    margin-top: 6px;
+    margin-right: 4px;
+  }
+  .move-btn:hover { background: var(--lavender); }
+
+  .add-card-btn {
+    width: 100%;
+    padding: 8px;
+    background: transparent;
+    border: 2px dashed var(--lavender-deep);
+    border-radius: var(--radius-sm);
+    color: var(--lavender-deep);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 4px;
+  }
+  .add-card-btn:hover { background: var(--lavender); color: var(--text); }
+
+  /* ===== MODAL ===== */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(90,62,90,0.4);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: white;
+    border-radius: var(--radius);
+    padding: 24px;
+    width: 100%;
+    max-width: 380px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(180,120,180,0.3);
+  }
+  .modal-title {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .modal-actions { display: flex; gap: 8px; margin-top: 16px; justify-content: flex-end; }
+  .field-label { font-size: 0.78rem; font-weight: 700; color: var(--text-light); margin-bottom: 4px; margin-top: 12px; }
+
+  /* ===== PERSONAL ===== */
+  .water-grid {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .water-cup {
+    width: 36px; height: 40px;
+    border-radius: 4px 4px 8px 8px;
+    border: 2px solid #A8D8F0;
+    background: white;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .water-cup::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 0%;
+    background: linear-gradient(to top, #A8D8F0, #D0EEFF);
+    transition: height 0.3s ease;
+  }
+  .water-cup.filled::before { height: 100%; }
+  .water-cup.filled { border-color: #60B0E0; }
+  .water-cup span { position: relative; z-index: 1; }
+
+  .water-count {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-light);
+    text-align: center;
+  }
+
+  .habit-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--cream-dark);
+  }
+  .habit-item:last-child { border-bottom: none; }
+
+  .habit-check {
+    width: 24px; height: 24px;
+    border-radius: 8px;
+    border: 2px solid var(--lavender-deep);
+    background: white;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .habit-check.checked { background: var(--mint-deep); border-color: var(--mint-deep); color: white; }
+
+  .habit-label { font-size: 0.85rem; font-weight: 600; flex: 1; }
+
+  .mood-grid {
+    display: flex; gap: 10px; justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .mood-btn {
+    flex: 1;
+    padding: 10px 4px;
+    border: 2px solid var(--cream-dark);
+    border-radius: var(--radius-sm);
+    background: white;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    font-family: 'Nunito', sans-serif;
+  }
+  .mood-btn .mood-emoji { font-size: 1.5rem; display: block; }
+  .mood-btn .mood-label { font-size: 0.6rem; font-weight: 700; color: var(--text-light); display: block; margin-top: 4px; }
+  .mood-btn.selected { border-color: var(--lavender-deep); background: var(--lavender); }
+
+  .mood-history { margin-top: 12px; }
+  .mood-hist-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--cream-dark);
+    font-size: 0.78rem;
+    color: var(--text-light);
+  }
+  .mood-hist-item .mhi-emoji { font-size: 1.1rem; }
+
+  .weight-input-row { display: flex; gap: 8px; align-items: flex-end; }
+  .weight-input-row > div { flex: 1; }
+
+  .weight-history { margin-top: 12px; }
+  .weight-hist-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--cream-dark);
+    font-size: 0.8rem;
+  }
+  .weight-diff { font-weight: 700; font-size: 0.75rem; }
+  .weight-diff.down { color: var(--mint-deep); }
+  .weight-diff.up { color: var(--rose-deep); }
+
+  .meta-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--cream-dark);
+    font-size: 0.85rem;
+  }
+  .meta-check {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--peach-deep);
+    background: white;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .meta-check.achieved { background: var(--peach-deep); border-color: var(--peach-deep); color: white; }
+
+  .meta-add-row { display: flex; gap: 8px; margin-top: 10px; }
+  .meta-add-row input { flex: 1; }
+
+  /* ===== TOAST ===== */
+  .toast {
+    position: fixed;
+    bottom: 20px; left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: linear-gradient(135deg, var(--rose-deep), var(--lavender-deep));
+    color: white;
+    padding: 12px 24px;
+    border-radius: 99px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    box-shadow: 0 8px 24px rgba(200,100,180,0.4);
+    z-index: 200;
+    transition: transform 0.3s ease;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ===== SECTION DIVIDER ===== */
+  .section-gap { height: 8px; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 400px) {
+    .kanban-col { width: 190px; }
+    .evolutions-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes pop-in {
+    0% { transform: scale(0.8); opacity: 0; }
+    70% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .pop-in { animation: pop-in 0.3s ease forwards; }
+
+  .sparkle-btn {
+    background: none; border: none; cursor: pointer;
+    font-size: 1.2rem;
+    padding: 4px;
+    transition: transform 0.2s;
+  }
+  .sparkle-btn:hover { transform: scale(1.2) rotate(10deg); }
+
+  .delete-btn {
+    background: none; border: none; cursor: pointer;
+    font-size: 0.9rem; color: #CCC;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: color 0.2s;
+  }
+  .delete-btn:hover { color: var(--rose-deep); }
+
+  /* streaks */
+  .streak-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--peach);
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="app-header">
+  <div class="app-title">✨ Princesinha App <span id="princess-name-display"></span></div>
+  <div class="xp-mini-bar">
+    <span id="mini-level-display">Nv. 1</span>
+    <div class="xp-mini-track">
+      <div class="xp-mini-fill" id="xp-mini-fill" style="width:0%"></div>
+    </div>
+    <span id="mini-xp-display">0 XP</span>
+  </div>
+  <nav class="tabs">
+    <button class="tab active" onclick="showScreen('timeline')">💖 Rotina</button>
+    <button class="tab" onclick="showScreen('princess')">👑 Quarto</button>
+    <button class="tab" onclick="showScreen('pro')">👩‍💻 Profissional</button>
+    <button class="tab" onclick="showScreen('personal')">🌸 Pessoal</button>
+  </nav>
+</header>
+
+<main class="main">
+
+  <!-- ===== SCREEN 1: TIMELINE ===== -->
+  <div class="screen active" id="screen-timeline">
+
+    <div class="card">
+      <div class="card-title">🗓️ Hoje · <span id="today-date-display"></span></div>
+      <div class="timeline" id="timeline-list"></div>
+      <button class="btn btn-sm btn-ghost" style="margin-top:12px;width:100%;" onclick="toggleAddTimeline()">＋ Adicionar item</button>
+      <div class="add-form" id="timeline-add-form">
+        <div class="form-row">
+          <div>
+            <div class="field-label">Tarefa</div>
+            <input type="text" id="tl-task-name" placeholder="Nome da tarefa...">
+          </div>
+          <div style="max-width:90px">
+            <div class="field-label">Horário</div>
+            <input type="time" id="tl-task-time">
+          </div>
+        </div>
+        <div class="form-row">
+          <div>
+            <div class="field-label">Tipo</div>
+            <select id="tl-task-type">
+              <option value="pessoal">🌸 Pessoal</option>
+              <option value="profissional">💼 Profissional</option>
+            </select>
+          </div>
+          <div>
+            <div class="field-label">XP</div>
+            <input type="number" id="tl-task-xp" placeholder="10" value="10" min="1" max="100">
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button class="btn btn-primary btn-sm" onclick="addTimelineItem()">✨ Adicionar</button>
+          <button class="btn btn-ghost btn-sm" onclick="toggleAddTimeline()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📊 Progresso do dia</div>
+      <div id="day-stats" style="font-size:0.85rem;color:var(--text-light);"></div>
+    </div>
+
+  </div>
+
+  <!-- ===== SCREEN 2: PRINCESS ===== -->
+  <div class="screen" id="screen-princess">
+
+    <div class="card">
+      <div class="princess-stage">
+        <span class="phase-label" id="phase-label">fase i</span>
+
+        <!-- SVG CHARACTER SCENE -->
+        <div class="avatar-scene" id="avatar-scene">
+          <div class="aura-ring aura-ring-3" id="aura3"></div>
+          <div class="aura-ring aura-ring-2" id="aura2"></div>
+          <div class="aura-ring aura-ring-1" id="aura1"></div>
+          <div class="particles" id="particles"></div>
+          <div class="avatar-svg-wrap" id="avatar-svg-wrap">
+            <!-- SVG injected by JS -->
+          </div>
+        </div>
+
+        <div class="level-badge" id="level-display">Nível 1</div>
+        <div class="princess-title" id="princess-title-display">Songamonga</div>
+        <div class="princess-subtitle" id="princess-subtitle-display">ainda acordando da vida</div>
+        <div class="streak-badge" id="streak-display">🔥 0 dias seguidos</div>
+      </div>
+
+      <div class="xp-bar-container">
+        <div class="xp-label">
+          <span>XP</span>
+          <span id="xp-numbers">0 / 100</span>
+        </div>
+        <div class="xp-track">
+          <div class="xp-fill" id="xp-fill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="card-title">✦ Jornada de evolução</div>
+      <div class="evolutions-grid" id="evolutions-grid"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🏆 Total de conquistas</div>
+      <div id="total-stats" style="font-size:0.85rem;color:var(--text-light);line-height:1.8;"></div>
+    </div>
+
+  </div>
+
+  <!-- ===== SCREEN 3: PROFESSIONAL (KANBAN) ===== -->
+  <div class="screen" id="screen-pro">
+    <div style="overflow-x:auto; margin: 0 -16px; padding: 0 16px 8px;">
+      <div class="kanban-board" id="kanban-board">
+        <div class="kanban-col" id="col-todo">
+          <div class="kanban-col-title">📋 A Fazer <span class="kanban-count" id="count-todo">0</span></div>
+          <div id="cards-todo"></div>
+          <button class="add-card-btn" onclick="openKanbanModal('todo')">＋ Novo cartão</button>
+        </div>
+        <div class="kanban-col" id="col-doing">
+          <div class="kanban-col-title">⚡ Em Andamento <span class="kanban-count" id="count-doing">0</span></div>
+          <div id="cards-doing"></div>
+          <button class="add-card-btn" onclick="openKanbanModal('doing')">＋ Novo cartão</button>
+        </div>
+        <div class="kanban-col" id="col-done">
+          <div class="kanban-col-title">✅ Concluído <span class="kanban-count" id="count-done">0</span></div>
+          <div id="cards-done"></div>
+          <button class="add-card-btn" onclick="openKanbanModal('done')">＋ Novo cartão</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN 4: PERSONAL ===== -->
+  <div class="screen" id="screen-personal">
+
+    <!-- ÁGUA -->
+    <div class="card">
+      <div class="card-title">💧 Água</div>
+      <div class="water-grid" id="water-grid"></div>
+      <div class="water-count" id="water-count-label"></div>
+    </div>
+
+    <!-- HÁBITOS -->
+    <div class="card">
+      <div class="card-title">🌿 Hábitos de hoje</div>
+
+      <div class="habit-item">
+        <div class="field-label" style="margin:0;min-width:100px;">⏰ Acordei às</div>
+        <input type="time" id="wake-time" style="max-width:120px;" onchange="savePersonal()">
+      </div>
+
+      <div class="habit-item">
+        <div class="habit-check" id="check-leitura" onclick="toggleHabit('leitura')"></div>
+        <span class="habit-label">📚 Leitura</span>
+      </div>
+
+      <div class="habit-item">
+        <div class="habit-check" id="check-lazer" onclick="toggleHabit('lazer')"></div>
+        <span class="habit-label">🎮 Momento de lazer</span>
+      </div>
+
+      <div class="habit-item" style="flex-direction:column;align-items:flex-start;gap:8px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="habit-check" id="check-treino" onclick="toggleHabit('treino')"></div>
+          <span class="habit-label">💪 Treino</span>
+        </div>
+        <input type="text" id="treino-desc" placeholder="O que treinou? Ex: Perna, Caminhada..." onchange="savePersonal()">
+      </div>
+    </div>
+
+    <!-- HUMOR -->
+    <div class="card">
+      <div class="card-title">💬 Humor de hoje</div>
+      <div class="mood-grid" id="mood-grid"></div>
+      <div class="mood-history" id="mood-history"></div>
+    </div>
+
+    <!-- PESO -->
+    <div class="card">
+      <div class="card-title">⚖️ Peso semanal</div>
+      <div class="weight-input-row">
+        <div>
+          <div class="field-label">Peso atual (kg)</div>
+          <input type="number" id="weight-current" placeholder="Ex: 65.5" step="0.1">
+        </div>
+        <div>
+          <div class="field-label">Meta (kg)</div>
+          <input type="number" id="weight-goal" placeholder="Ex: 60.0" step="0.1" onchange="savePersonal()">
+        </div>
+        <div style="max-width:80px;display:flex;align-items:flex-end;">
+          <button class="btn btn-primary btn-sm" onclick="addWeight()" style="margin-bottom:2px;">Salvar</button>
+        </div>
+      </div>
+      <div class="weight-history" id="weight-history"></div>
+    </div>
+
+    <!-- METAS -->
+    <div class="card">
+      <div class="card-title">🌟 Metas pessoais</div>
+      <div id="metas-list"></div>
+      <div class="meta-add-row">
+        <input type="text" id="meta-input" placeholder="Nova meta...">
+        <button class="btn btn-primary btn-sm" onclick="addMeta()">＋</button>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<!-- ===== KANBAN MODAL ===== -->
+<div class="modal-overlay" id="kanban-modal">
+  <div class="modal">
+    <div class="modal-title">✨ <span id="modal-title-text">Novo cartão</span></div>
+    <div class="field-label">Título</div>
+    <input type="text" id="k-title" placeholder="Ex: Post sobre INSS dos médicos">
+    <div class="field-label">Rede social</div>
+    <select id="k-social">
+      <option value="instagram">📷 Instagram</option>
+      <option value="tiktok">🎵 TikTok</option>
+      <option value="youtube">▶️ YouTube / Outro</option>
+      <option value="outro">📌 Outro</option>
+    </select>
+    <div class="field-label">Prazo</div>
+    <input type="date" id="k-deadline">
+    <div class="field-label">Checklist (um item por linha)</div>
+    <textarea id="k-checklist" placeholder="Roteiro&#10;Gravação&#10;Edição&#10;Legenda"></textarea>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" onclick="closeKanbanModal()">Cancelar</button>
+      <button class="btn btn-primary btn-sm" onclick="saveKanbanCard()">✨ Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== STATE =====
+let state = {
+  xp: 0,
+  level: 1,
+  totalXP: 0,
+  streak: 0,
+  lastActive: null,
+  timelineItems: [],
+  kanbanCards: [],
+  personal: {
+    water: 0,
+    wakeTime: '',
+    habits: { leitura: false, lazer: false, treino: false },
+    treinoDesc: '',
+    todayMood: null,
+    moodHistory: [],
+    weightGoal: '',
+    weightHistory: [],
+    metas: []
+  }
+};
+
+// ===== EVOLUTION DATA =====
+// 4 phases × 3 stages = 12 total
+// posture: 'slump' | 'casual' | 'upright' | 'power'
+// aura: color config
+const EVOLUTIONS = [
+  // FASE I — SONGAMONGA
+  {
+    level: 1, phase: 'FASE I', phaseColor: '#C8BFD0', name: 'Songamonga',
+    subtitle: 'ainda acordando da vida',
+    posture: 'slump', hairStyle: 'messy',
+    aura: { c1: '#E8E0F0', c2: '#D0C8E0', c3: '#B8B0C8', xp: '#C4AEE8' },
+    particles: [], gridIcon: '😴'
+  },
+  {
+    level: 4, phase: 'FASE I', phaseColor: '#C8BFD0', name: 'Meia-Boca',
+    subtitle: 'acordou mas não tá feliz com isso',
+    posture: 'slump', hairStyle: 'messy',
+    aura: { c1: '#EDE8F8', c2: '#D8D0EC', c3: '#C4BCE0', xp: '#B8A8D8' },
+    particles: ['#D0C0E8'], gridIcon: '🙄'
+  },
+  {
+    level: 8, phase: 'FASE I', phaseColor: '#C8BFD0', name: 'Morna',
+    subtitle: 'existe. isso já é alguma coisa',
+    posture: 'casual', hairStyle: 'messy',
+    aura: { c1: '#F0E8FF', c2: '#DDD0F8', c3: '#C8B8EC', xp: '#C4AEE8' },
+    particles: ['#E0D0F8', '#C8B8E8'], gridIcon: '😑'
+  },
+  // FASE II — TONHA
+  {
+    level: 12, phase: 'FASE II', phaseColor: '#F0C8D8', name: 'Tonha',
+    subtitle: 'tem energia mas tá usando errado',
+    posture: 'casual', hairStyle: 'ponytail',
+    aura: { c1: '#FFE0EC', c2: '#F8C8DC', c3: '#F0A8C4', xp: '#F4A0B8' },
+    particles: ['#F8C8DC'], gridIcon: '😬'
+  },
+  {
+    level: 17, phase: 'FASE II', phaseColor: '#F0C8D8', name: 'Meio Esperta',
+    subtitle: 'tá pegando o jeito, quase',
+    posture: 'casual', hairStyle: 'ponytail',
+    aura: { c1: '#FFE8F0', c2: '#F8D0E0', c3: '#F0B8D0', xp: '#F4A0B8' },
+    particles: ['#FFD0E8', '#F8B8D4'], gridIcon: '😏'
+  },
+  {
+    level: 23, phase: 'FASE II', phaseColor: '#F0C8D8', name: 'Acorda Bethânia',
+    subtitle: 'o potencial tá ali, esperando',
+    posture: 'upright', hairStyle: 'ponytail',
+    aura: { c1: '#FFF0F8', c2: '#FFD8EC', c3: '#F8B8D8', xp: '#F490B0' },
+    particles: ['#FFD0E8', '#F8B0D0', '#FFBCE0'], gridIcon: '💅'
+  },
+  // FASE III — DIVA
+  {
+    level: 30, phase: 'FASE III', phaseColor: '#D0A8F0', name: 'Diva em Formação',
+    subtitle: 'começou a andar diferente',
+    posture: 'upright', hairStyle: 'down',
+    aura: { c1: '#F0E0FF', c2: '#E0C8F8', c3: '#C8A8F0', xp: '#B890E8' },
+    particles: ['#E8D0FF', '#D0B8F8'], gridIcon: '✨'
+  },
+  {
+    level: 38, phase: 'FASE III', phaseColor: '#D0A8F0', name: 'Diva de Fato',
+    subtitle: 'todo mundo notou. ela não liga',
+    posture: 'power', hairStyle: 'down',
+    aura: { c1: '#F8EEFF', c2: '#ECD8FF', c3: '#D4B0F8', xp: '#C090F0' },
+    particles: ['#F0D8FF', '#DCC0F8', '#C8A8F0'], gridIcon: '👑'
+  },
+  {
+    level: 47, phase: 'FASE III', phaseColor: '#D0A8F0', name: 'Diva Incontrolável',
+    subtitle: 'chegou num nível que a gente não questiona',
+    posture: 'power', hairStyle: 'voluminous',
+    aura: { c1: '#FFF0FF', c2: '#F0D0FF', c3: '#E0A8FF', xp: '#C880F8' },
+    particles: ['#F8E0FF', '#E8C0FF', '#D8A0FF', '#C880F8'], gridIcon: '🌙'
+  },
+  // FASE IV — SUPREMA
+  {
+    level: 57, phase: 'FASE IV', phaseColor: '#FFD070', name: 'Suprema Iniciante',
+    subtitle: 'transcendeu mas ainda tá se acostumando',
+    posture: 'power', hairStyle: 'voluminous',
+    aura: { c1: '#FFF8E0', c2: '#FFE8A0', c3: '#FFD060', xp: 'linear-gradient(90deg,#F8A0C8,#C880F8,#FFD060)' },
+    particles: ['#FFE8A0', '#F8D070', '#F0C040'], gridIcon: '⭐'
+  },
+  {
+    level: 68, phase: 'FASE IV', phaseColor: '#FFD070', name: 'A Suprema',
+    subtitle: 'tá em outro plano. literal',
+    posture: 'power', hairStyle: 'voluminous',
+    aura: { c1: '#FFFAE8', c2: '#FFF0B0', c3: '#FFE070', xp: 'linear-gradient(90deg,#F090C0,#B060F0,#FFB830)' },
+    particles: ['#FFE890', '#FFD050', '#FFC020', '#F8A000'], gridIcon: '🌟'
+  },
+  {
+    level: 80, phase: 'FASE IV', phaseColor: '#FFD070', name: 'Suprema Absoluta',
+    subtitle: 'origem da espécie. lenda. ela mesma',
+    posture: 'power', hairStyle: 'cosmic',
+    aura: { c1: '#FFF8FF', c2: '#FFE8FF', c3: '#FFD0FF', xp: 'linear-gradient(90deg,#FF80C0,#A040F8,#FFB800,#FF80C0)' },
+    particles: ['#FFE0A0', '#F8A0E0', '#C080FF', '#80D0FF', '#FFE040'], gridIcon: '✦'
+  },
+];
+
+// SVG CHARACTER GENERATOR
+function buildCharacterSVG(posture, hairStyle, auraC1) {
+  const W = 120, H = 180;
+
+  // skin tone — fixed soft beige
+  const skin = '#F5D5B8';
+  const skinD = '#E8C0A0';
+  const hairColor = '#3D2B1F';
+  const hairH = '#6B4226';
+  const clothBase = auraC1 || '#E8D0F8';
+  const clothDark = shadeColor(clothBase, -20);
+
+  const poses = {
+    slump: {
+      body: `<ellipse cx="60" cy="130" rx="28" ry="38" fill="${clothBase}"/>
+             <ellipse cx="60" cy="130" rx="28" ry="38" fill="url(#clothShade)" opacity="0.3"/>
+             <!-- arms drooping -->
+             <path d="M32 118 Q18 130 20 148" stroke="${clothDark}" stroke-width="14" stroke-linecap="round" fill="none"/>
+             <path d="M88 118 Q102 130 100 148" stroke="${clothDark}" stroke-width="14" stroke-linecap="round" fill="none"/>
+             <!-- hands -->
+             <ellipse cx="20" cy="150" rx="8" ry="7" fill="${skin}"/>
+             <ellipse cx="100" cy="150" rx="8" ry="7" fill="${skin}"/>`,
+      headY: 72, headTilt: 8, eyeMood: 'sleepy', mouthMood: 'flat'
+    },
+    casual: {
+      body: `<ellipse cx="60" cy="128" rx="27" ry="36" fill="${clothBase}"/>
+             <ellipse cx="60" cy="128" rx="27" ry="36" fill="url(#clothShade)" opacity="0.2"/>
+             <path d="M33 115 Q16 120 18 138" stroke="${clothDark}" stroke-width="14" stroke-linecap="round" fill="none"/>
+             <path d="M87 115 Q104 120 102 138" stroke="${clothDark}" stroke-width="14" stroke-linecap="round" fill="none"/>
+             <ellipse cx="18" cy="140" rx="8" ry="7" fill="${skin}"/>
+             <ellipse cx="102" cy="140" rx="8" ry="7" fill="${skin}"/>`,
+      headY: 68, headTilt: 3, eyeMood: 'neutral', mouthMood: 'slight'
+    },
+    upright: {
+      body: `<ellipse cx="60" cy="126" rx="26" ry="35" fill="${clothBase}"/>
+             <ellipse cx="60" cy="126" rx="26" ry="35" fill="url(#clothShade)" opacity="0.15"/>
+             <path d="M34 112 Q14 108 16 126" stroke="${clothDark}" stroke-width="14" stroke-linecap="round" fill="none"/>
+             <path d="M86 112 Q106 108 104 126" stroke="${clothDark}" stroke-width="14" stroke-linecap="round" fill="none"/>
+             <ellipse cx="16" cy="128" rx="8" ry="7" fill="${skin}"/>
+             <ellipse cx="104" cy="128" rx="8" ry="7" fill="${skin}"/>`,
+      headY: 64, headTilt: 0, eyeMood: 'confident', mouthMood: 'smile'
+    },
+    power: {
+      body: `<ellipse cx="60" cy="124" rx="26" ry="34" fill="${clothBase}"/>
+             <ellipse cx="60" cy="124" rx="26" ry="34" fill="url(#clothShade)" opacity="0.1"/>
+             <!-- arms raised slightly -->
+             <path d="M34 110 Q10 100 12 118" stroke="${clothDark}" stroke-width="14" stroke-linecap="round" fill="none"/>
+             <path d="M86 110 Q110 100 108 118" stroke="${clothDark}" stroke-width="14" stroke-linecap="round" fill="none"/>
+             <ellipse cx="12" cy="120" rx="8" ry="7" fill="${skin}"/>
+             <ellipse cx="108" cy="120" rx="8" ry="7" fill="${skin}"/>`,
+      headY: 60, headTilt: -2, eyeMood: 'fierce', mouthMood: 'smirk'
+    }
+  };
+
+  const hairs = {
+    messy: (hy) => `
+      <ellipse cx="60" cy="${hy-2}" rx="26" ry="28" fill="${hairColor}"/>
+      <path d="M34 ${hy-10} Q28 ${hy-38} 38 ${hy-42}" stroke="${hairH}" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <path d="M86 ${hy-10} Q92 ${hy-38} 82 ${hy-42}" stroke="${hairH}" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <path d="M52 ${hy-34} Q48 ${hy-48} 55 ${hy-50}" stroke="${hairColor}" stroke-width="6" stroke-linecap="round" fill="none"/>
+      <path d="M68 ${hy-34} Q74 ${hy-46} 66 ${hy-50}" stroke="${hairColor}" stroke-width="5" stroke-linecap="round" fill="none"/>
+    `,
+    ponytail: (hy) => `
+      <ellipse cx="60" cy="${hy-2}" rx="26" ry="27" fill="${hairColor}"/>
+      <path d="M84 ${hy-18} Q100 ${hy-28} 96 ${hy}" stroke="${hairColor}" stroke-width="8" stroke-linecap="round" fill="none"/>
+      <path d="M84 ${hy-18} Q104 ${hy-22} 98 ${hy+4}" stroke="${hairH}" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.6"/>
+    `,
+    down: (hy) => `
+      <ellipse cx="60" cy="${hy}" rx="26" ry="27" fill="${hairColor}"/>
+      <path d="M34 ${hy+10} Q28 ${hy+50} 36 ${hy+70}" stroke="${hairColor}" stroke-width="14" stroke-linecap="round" fill="none"/>
+      <path d="M86 ${hy+10} Q92 ${hy+50} 84 ${hy+70}" stroke="${hairColor}" stroke-width="14" stroke-linecap="round" fill="none"/>
+      <path d="M38 ${hy+10} Q32 ${hy+46} 40 ${hy+66}" stroke="${hairH}" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.5"/>
+    `,
+    voluminous: (hy) => `
+      <ellipse cx="60" cy="${hy+4}" rx="34" ry="32" fill="${hairColor}"/>
+      <ellipse cx="60" cy="${hy-6}" rx="28" ry="22" fill="${hairColor}"/>
+      <path d="M26 ${hy+10} Q14 ${hy+55} 26 ${hy+80}" stroke="${hairColor}" stroke-width="18" stroke-linecap="round" fill="none"/>
+      <path d="M94 ${hy+10} Q106 ${hy+55} 94 ${hy+80}" stroke="${hairColor}" stroke-width="18" stroke-linecap="round" fill="none"/>
+      <ellipse cx="32" cy="${hy-18}" rx="12" ry="16" fill="${hairColor}"/>
+      <ellipse cx="88" cy="${hy-18}" rx="12" ry="16" fill="${hairColor}"/>
+      <path d="M30 ${hy+8} Q20 ${hy+50} 28 ${hy+76}" stroke="${hairH}" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.4"/>
+    `,
+    cosmic: (hy) => `
+      <ellipse cx="60" cy="${hy+4}" rx="36" ry="34" fill="${hairColor}"/>
+      <ellipse cx="60" cy="${hy-8}" rx="30" ry="24" fill="${hairColor}"/>
+      <path d="M24 ${hy+8} Q8 ${hy+60} 22 ${hy+90}" stroke="${hairColor}" stroke-width="20" stroke-linecap="round" fill="none"/>
+      <path d="M96 ${hy+8} Q112 ${hy+60} 98 ${hy+90}" stroke="${hairColor}" stroke-width="20" stroke-linecap="round" fill="none"/>
+      <ellipse cx="28" cy="${hy-22}" rx="14" ry="18" fill="${hairColor}"/>
+      <ellipse cx="92" cy="${hy-22}" rx="14" ry="18" fill="${hairColor}"/>
+      <!-- cosmic streaks -->
+      <path d="M34 ${hy-8} Q38 ${hy+40} 32 ${hy+82}" stroke="#C080FF" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.5"/>
+      <path d="M86 ${hy-8} Q82 ${hy+40} 88 ${hy+82}" stroke="#80D0FF" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.5"/>
+      <path d="M52 ${hy-26} Q48 ${hy-44} 56 ${hy-50}" stroke="#FFD060" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.7"/>
+      <path d="M70 ${hy-26} Q76 ${hy-42} 66 ${hy-50}" stroke="#F090C0" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.7"/>
+    `,
+  };
+
+  const eyes = {
+    sleepy: (hy) => `
+      <path d="M48 ${hy+12} Q52 ${hy+10} 56 ${hy+12}" stroke="#5A3E5A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <path d="M64 ${hy+12} Q68 ${hy+10} 72 ${hy+12}" stroke="#5A3E5A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    `,
+    neutral: (hy) => `
+      <ellipse cx="52" cy="${hy+12}" rx="5" ry="5" fill="#3D2B1F"/>
+      <ellipse cx="68" cy="${hy+12}" rx="5" ry="5" fill="#3D2B1F"/>
+      <ellipse cx="54" cy="${hy+10}" rx="2" ry="2" fill="white" opacity="0.7"/>
+      <ellipse cx="70" cy="${hy+10}" rx="2" ry="2" fill="white" opacity="0.7"/>
+    `,
+    confident: (hy) => `
+      <ellipse cx="52" cy="${hy+12}" rx="5.5" ry="6" fill="#3D2B1F"/>
+      <ellipse cx="68" cy="${hy+12}" rx="5.5" ry="6" fill="#3D2B1F"/>
+      <ellipse cx="54" cy="${hy+10}" rx="2.5" ry="2.5" fill="white" opacity="0.8"/>
+      <ellipse cx="70" cy="${hy+10}" rx="2.5" ry="2.5" fill="white" opacity="0.8"/>
+      <!-- eyelashes -->
+      <path d="M47 ${hy+7} Q49 ${hy+5} 51 ${hy+7}" stroke="#3D2B1F" stroke-width="1.5" fill="none"/>
+      <path d="M63 ${hy+7} Q65 ${hy+5} 67 ${hy+7}" stroke="#3D2B1F" stroke-width="1.5" fill="none"/>
+    `,
+    fierce: (hy) => `
+      <ellipse cx="52" cy="${hy+13}" rx="6" ry="6.5" fill="#3D2B1F"/>
+      <ellipse cx="68" cy="${hy+13}" rx="6" ry="6.5" fill="#3D2B1F"/>
+      <ellipse cx="54.5" cy="${hy+11}" rx="2.5" ry="2.5" fill="white" opacity="0.9"/>
+      <ellipse cx="70.5" cy="${hy+11}" rx="2.5" ry="2.5" fill="white" opacity="0.9"/>
+      <!-- fierce brows -->
+      <path d="M46 ${hy+5} Q52 ${hy+2} 57 ${hy+5}" stroke="#3D2B1F" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <path d="M63 ${hy+5} Q68 ${hy+2} 74 ${hy+5}" stroke="#3D2B1F" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <!-- lashes -->
+      <path d="M46 ${hy+8} Q49 ${hy+5} 52 ${hy+7}" stroke="#3D2B1F" stroke-width="2" fill="none"/>
+      <path d="M62 ${hy+8} Q65 ${hy+5} 68 ${hy+7}" stroke="#3D2B1F" stroke-width="2" fill="none"/>
+    `,
+  };
+
+  const mouths = {
+    flat:   (hy) => `<path d="M52 ${hy+22} Q60 ${hy+21} 68 ${hy+22}" stroke="#C8A090" stroke-width="2" stroke-linecap="round" fill="none"/>`,
+    slight: (hy) => `<path d="M52 ${hy+22} Q60 ${hy+25} 68 ${hy+22}" stroke="#C8A090" stroke-width="2" stroke-linecap="round" fill="none"/>`,
+    smile:  (hy) => `<path d="M50 ${hy+20} Q60 ${hy+28} 70 ${hy+20}" stroke="#C8A090" stroke-width="2.5" stroke-linecap="round" fill="none"/>`,
+    smirk:  (hy) => `<path d="M52 ${hy+22} Q64 ${hy+28} 70 ${hy+20}" stroke="#C8A090" stroke-width="2.5" stroke-linecap="round" fill="none"/>`,
+  };
+
+  const p = poses[posture] || poses.casual;
+  const hy = p.headY;
+
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="clothShade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="white"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.3"/>
+    </linearGradient>
+    <linearGradient id="skinGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${skin}"/>
+      <stop offset="100%" stop-color="${skinD}"/>
+    </linearGradient>
+  </defs>
+
+  <!-- HAIR BACK -->
+  ${hairs[hairStyle] ? hairs[hairStyle](hy) : hairs.down(hy)}
+
+  <!-- BODY -->
+  ${p.body}
+
+  <!-- NECK -->
+  <rect x="52" y="${hy+26}" width="16" height="14" rx="4" fill="${skin}"/>
+
+  <!-- HEAD -->
+  <g transform="rotate(${p.headTilt}, 60, ${hy+14})">
+    <ellipse cx="60" cy="${hy+14}" rx="24" ry="26" fill="url(#skinGrad)"/>
+    <!-- blush -->
+    <ellipse cx="42" cy="${hy+18}" rx="8" ry="5" fill="#F8C0C8" opacity="0.4"/>
+    <ellipse cx="78" cy="${hy+18}" rx="8" ry="5" fill="#F8C0C8" opacity="0.4"/>
+    <!-- eyes -->
+    ${eyes[p.eyeMood] ? eyes[p.eyeMood](hy) : eyes.neutral(hy)}
+    <!-- nose -->
+    <ellipse cx="60" cy="${hy+18}" rx="2" ry="1.5" fill="${skinD}" opacity="0.5"/>
+    <!-- mouth -->
+    ${mouths[p.mouthMood] ? mouths[p.mouthMood](hy) : mouths.slight(hy)}
+  </g>
+</svg>`;
+}
+
+function shadeColor(hex, pct) {
+  // very simple shade — just return a fallback
+  return hex;
+}
+
+const MOODS = [
+  { emoji: '😊', label: 'Feliz', key: 'feliz' },
+  { emoji: '⚡', label: 'Produtiva', key: 'produtiva' },
+  { emoji: '😴', label: 'Cansada', key: 'cansada' },
+  { emoji: '🥺', label: 'Triste', key: 'triste' },
+  { emoji: '😰', label: 'Ansiosa', key: 'ansiosa' },
+];
+
+const XP_PER_LEVEL = (level) => Math.floor(100 * Math.pow(1.3, level - 1));
+
+// ===== INIT =====
+function init() {
+  loadState();
+  checkStreak();
+  renderTimeline();
+  renderPrincess();
+  renderKanban();
+  renderPersonal();
+  updateHeader();
+  document.getElementById('today-date-display').textContent = new Date().toLocaleDateString('pt-BR', { weekday:'long', day:'numeric', month:'long' });
+}
+
+// ===== STORAGE =====
+function loadState() {
+  const saved = localStorage.getItem('princesinha_state');
+  if (saved) state = JSON.parse(saved);
+}
+
+function saveState() {
+  localStorage.setItem('princesinha_state', JSON.stringify(state));
+}
+
+// ===== NAVIGATION =====
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ===== XP / LEVEL =====
+function addXP(amount) {
+  state.xp += amount;
+  state.totalXP += amount;
+  let leveled = false;
+  while (state.xp >= XP_PER_LEVEL(state.level)) {
+    state.xp -= XP_PER_LEVEL(state.level);
+    state.level++;
+    leveled = true;
+  }
+  if (leveled) showToast('🎉 Level Up! Nível ' + state.level + ' conquistado!');
+  saveState();
+  updateHeader();
+  renderPrincess();
+}
+
+function updateHeader() {
+  const needed = XP_PER_LEVEL(state.level);
+  const pct = Math.min(100, (state.xp / needed) * 100);
+  document.getElementById('xp-mini-fill').style.width = pct + '%';
+  document.getElementById('mini-level-display').textContent = 'Nv. ' + state.level;
+  document.getElementById('mini-xp-display').textContent = state.totalXP + ' XP';
+}
+
+// ===== STREAK =====
+function checkStreak() {
+  const today = new Date().toDateString();
+  if (state.lastActive !== today) {
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    if (state.lastActive === yesterday) {
+      state.streak = (state.streak || 0) + 1;
+    } else if (state.lastActive !== today) {
+      state.streak = 1;
+    }
+    state.lastActive = today;
+    // reset today's timeline done states
+    state.timelineItems.forEach(i => { if (i.todayDone) i.todayDone = false; });
+    saveState();
+  }
+}
+
+// ===== TIMELINE =====
+function renderTimeline() {
+  const container = document.getElementById('timeline-list');
+  const sorted = [...state.timelineItems].sort((a, b) => (a.time || '99:99').localeCompare(b.time || '99:99'));
+
+  if (!sorted.length) {
+    container.innerHTML = '<div class="empty-state"><span class="emoji">🌸</span>Nenhuma tarefa ainda.<br>Adicione sua primeira atividade!</div>';
+    document.getElementById('day-stats').textContent = 'Adicione tarefas para começar ✨';
+    return;
+  }
+
+  container.innerHTML = sorted.map(item => `
+    <div class="timeline-item ${item.todayDone ? 'done' : ''}" id="tl-${item.id}">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        ${item.time ? `<div class="time-label">⏰ ${item.time}</div>` : ''}
+        <div class="task-name">${item.name}</div>
+        <span class="task-tag tag-${item.type}">${item.type === 'pessoal' ? '🌸 Pessoal' : '💼 Profissional'}</span>
+        <div class="xp-badge">+${item.xp} XP</div>
+      </div>
+      <div class="timeline-check ${item.todayDone ? 'checked' : ''}" onclick="toggleTimeline('${item.id}')">
+        ${item.todayDone ? '✓' : ''}
+      </div>
+      <button class="delete-btn" onclick="deleteTimeline('${item.id}')">✕</button>
+    </div>
+  `).join('');
+
+  const done = sorted.filter(i => i.todayDone).length;
+  const total = sorted.length;
+  const pct = total > 0 ? Math.round((done/total)*100) : 0;
+  document.getElementById('day-stats').innerHTML = `
+    <div style="margin-bottom:8px;">${done} de ${total} tarefas concluídas — ${pct}% do dia! ${pct === 100 ? '🎉' : pct >= 50 ? '⚡' : '🌱'}</div>
+    <div style="height:8px;background:var(--cream-dark);border-radius:99px;overflow:hidden;">
+      <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--rose-deep),var(--lavender-deep));border-radius:99px;transition:width 0.4s;"></div>
+    </div>
+  `;
+}
+
+function toggleAddTimeline() {
+  const form = document.getElementById('timeline-add-form');
+  form.classList.toggle('open');
+}
+
+function addTimelineItem() {
+  const name = document.getElementById('tl-task-name').value.trim();
+  if (!name) return showToast('✨ Digite o nome da tarefa!');
+  const item = {
+    id: Date.now().toString(),
+    name,
+    time: document.getElementById('tl-task-time').value,
+    type: document.getElementById('tl-task-type').value,
+    xp: parseInt(document.getElementById('tl-task-xp').value) || 10,
+    todayDone: false
+  };
+  state.timelineItems.push(item);
+  saveState();
+  renderTimeline();
+  document.getElementById('tl-task-name').value = '';
+  document.getElementById('tl-task-time').value = '';
+  document.getElementById('timeline-add-form').classList.remove('open');
+  showToast('🌸 Tarefa adicionada!');
+}
+
+function toggleTimeline(id) {
+  const item = state.timelineItems.find(i => i.id === id);
+  if (!item) return;
+  if (!item.todayDone) {
+    item.todayDone = true;
+    addXP(item.xp);
+    showToast(`+${item.xp} XP ✨`);
+  } else {
+    item.todayDone = false;
+  }
+  saveState();
+  renderTimeline();
+}
+
+function deleteTimeline(id) {
+  state.timelineItems = state.timelineItems.filter(i => i.id !== id);
+  saveState();
+  renderTimeline();
+}
+
+// ===== PRINCESS =====
+function renderPrincess() {
+  const currentEvo = [...EVOLUTIONS].reverse().find(e => state.level >= e.level) || EVOLUTIONS[0];
+  const nextEvo = EVOLUTIONS.find(e => e.level > state.level);
+  const needed = XP_PER_LEVEL(state.level);
+  const pct = Math.min(100, (state.xp / needed) * 100);
+
+  // Phase label
+  const phaseEl = document.getElementById('phase-label');
+  phaseEl.textContent = currentEvo.phase;
+  phaseEl.style.background = currentEvo.phaseColor;
+  phaseEl.style.color = '#fff';
+
+  // Aura rings
+  document.getElementById('aura1').style.background = `radial-gradient(circle, ${currentEvo.aura.c1}, transparent)`;
+  document.getElementById('aura2').style.background = `radial-gradient(circle, ${currentEvo.aura.c2}, transparent)`;
+  document.getElementById('aura3').style.background = `radial-gradient(circle, ${currentEvo.aura.c3}, transparent)`;
+
+  // Particles
+  spawnParticles(currentEvo.particles);
+
+  // SVG character
+  document.getElementById('avatar-svg-wrap').innerHTML = buildCharacterSVG(
+    currentEvo.posture, currentEvo.hairStyle, currentEvo.aura.c1
+  );
+
+  // Text
+  document.getElementById('level-display').textContent = 'Nível ' + state.level;
+  document.getElementById('princess-title-display').textContent = currentEvo.name;
+  document.getElementById('princess-title-display').style.color = currentEvo.phaseColor === '#FFD070' ? '#B8860B' : currentEvo.phaseColor;
+  document.getElementById('princess-subtitle-display').textContent = currentEvo.subtitle;
+  document.getElementById('streak-display').textContent = `🔥 ${state.streak || 0} dias seguidos`;
+
+  // XP bar
+  const xpFill = document.getElementById('xp-fill');
+  xpFill.style.width = pct + '%';
+  const xpBg = currentEvo.aura.xp.startsWith('linear') ? currentEvo.aura.xp : `linear-gradient(90deg, ${currentEvo.aura.xp}, ${currentEvo.phaseColor})`;
+  xpFill.style.background = xpBg;
+  document.getElementById('xp-numbers').textContent = `${state.xp} / ${needed} XP${nextEvo ? ' → ' + nextEvo.name : ' ✦ MAX'}`;
+
+  // Evolutions grid
+  const grid = document.getElementById('evolutions-grid');
+  grid.innerHTML = EVOLUTIONS.map(evo => {
+    const unlocked = state.level >= evo.level;
+    const current = evo === currentEvo;
+    return `<div class="evo-card ${current ? 'current' : unlocked ? 'unlocked' : 'locked'}"
+      style="${current ? `border-color:${evo.phaseColor};background:${evo.aura.c1};` : unlocked ? `background:${evo.aura.c1}88;` : ''}">
+      <span class="evo-emoji">${unlocked ? evo.gridIcon : '🔒'}</span>
+      <div class="evo-name">${evo.name}</div>
+      <div class="evo-level">Nv. ${evo.level}</div>
+    </div>`;
+  }).join('');
+
+  // Stats
+  document.getElementById('total-stats').innerHTML = `
+    ✦ XP total: <b>${state.totalXP}</b><br>
+    📋 Tarefas hoje: <b>${state.timelineItems.filter(i=>i.todayDone).length}</b><br>
+    🔥 Sequência: <b>${state.streak || 0} dias</b><br>
+    📊 Nível: <b>${state.level}</b> — ${currentEvo.name}
+  `;
+}
+
+function spawnParticles(colors) {
+  const container = document.getElementById('particles');
+  container.innerHTML = '';
+  if (!colors || !colors.length) return;
+  const count = Math.min(colors.length * 4, 14);
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = 4 + Math.random() * 6;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      background:${colors[i % colors.length]};
+      left:${10 + Math.random()*80}%;
+      bottom:${Math.random()*30}%;
+      animation-duration:${3 + Math.random()*4}s;
+      animation-delay:${Math.random()*3}s;
+    `;
+    container.appendChild(p);
+  }
+}
+
+// ===== KANBAN =====
+let kanbanModalCol = 'todo';
+let editingCardId = null;
+
+function renderKanban() {
+  ['todo', 'doing', 'done'].forEach(col => {
+    const cards = state.kanbanCards.filter(c => c.col === col);
+    document.getElementById('count-' + col).textContent = cards.length;
+    document.getElementById('cards-' + col).innerHTML = cards.map(c => renderKanbanCard(c)).join('');
+  });
+}
+
+function renderKanbanCard(c) {
+  const checkItems = c.checklist.map((item, i) => `
+    <label class="kcard-check-item ${item.done ? 'checked-item' : ''}">
+      <input type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleKanbanCheck('${c.id}', ${i})">
+      ${item.text}
+    </label>
+  `).join('');
+
+  const totalChecks = c.checklist.length;
+  const doneChecks = c.checklist.filter(i => i.done).length;
+  const checkPct = totalChecks > 0 ? (doneChecks / totalChecks) * 100 : 0;
+
+  const socialLabels = { instagram:'📷 Instagram', tiktok:'🎵 TikTok', youtube:'▶️ YouTube', outro:'📌 Outro' };
+  const prevCol = { todo: null, doing: 'todo', done: 'doing' };
+  const nextCol = { todo: 'doing', doing: 'done', done: null };
+
+  return `<div class="kanban-card ${c.social}" id="kcard-${c.id}">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+      <div class="kcard-title">${c.title}</div>
+      <button class="delete-btn" onclick="deleteKanbanCard('${c.id}')">✕</button>
+    </div>
+    <span class="kcard-tag tag-${c.social}">${socialLabels[c.social] || c.social}</span>
+    ${c.deadline ? `<div class="kcard-deadline">📅 ${new Date(c.deadline + 'T12:00:00').toLocaleDateString('pt-BR')}</div>` : ''}
+    <div class="kcard-checklist">${checkItems}</div>
+    ${totalChecks > 0 ? `<div class="kcard-progress"><div class="kcard-progress-fill" style="width:${checkPct}%"></div></div>` : ''}
+    <div style="margin-top:6px;">
+      ${prevCol[c.col] ? `<button class="move-btn" onclick="moveCard('${c.id}','${prevCol[c.col]}')">← Voltar</button>` : ''}
+      ${nextCol[c.col] ? `<button class="move-btn" onclick="moveCard('${c.id}','${nextCol[c.col]}')">Avançar →</button>` : ''}
+    </div>
+  </div>`;
+}
+
+function openKanbanModal(col) {
+  kanbanModalCol = col;
+  editingCardId = null;
+  document.getElementById('k-title').value = '';
+  document.getElementById('k-social').value = 'instagram';
+  document.getElementById('k-deadline').value = '';
+  document.getElementById('k-checklist').value = '';
+  document.getElementById('modal-title-text').textContent = 'Novo cartão';
+  document.getElementById('kanban-modal').classList.add('open');
+}
+
+function closeKanbanModal() {
+  document.getElementById('kanban-modal').classList.remove('open');
+}
+
+function saveKanbanCard() {
+  const title = document.getElementById('k-title').value.trim();
+  if (!title) return showToast('✨ Digite o título!');
+  const checklistRaw = document.getElementById('k-checklist').value;
+  const checklist = checklistRaw.split('\n').filter(l => l.trim()).map(l => ({ text: l.trim(), done: false }));
+
+  const card = {
+    id: editingCardId || Date.now().toString(),
+    col: kanbanModalCol,
+    title,
+    social: document.getElementById('k-social').value,
+    deadline: document.getElementById('k-deadline').value,
+    checklist
+  };
+
+  if (editingCardId) {
+    const idx = state.kanbanCards.findIndex(c => c.id === editingCardId);
+    if (idx >= 0) state.kanbanCards[idx] = card;
+  } else {
+    state.kanbanCards.push(card);
+  }
+
+  saveState();
+  renderKanban();
+  closeKanbanModal();
+  showToast('🌸 Cartão salvo!');
+}
+
+function toggleKanbanCheck(cardId, itemIdx) {
+  const card = state.kanbanCards.find(c => c.id === cardId);
+  if (!card) return;
+  card.checklist[itemIdx].done = !card.checklist[itemIdx].done;
+  saveState();
+  renderKanban();
+}
+
+function moveCard(cardId, newCol) {
+  const card = state.kanbanCards.find(c => c.id === cardId);
+  if (!card) return;
+  card.col = newCol;
+  if (newCol === 'done') { addXP(20); showToast('✅ +20 XP por concluir tarefa!'); }
+  saveState();
+  renderKanban();
+}
+
+function deleteKanbanCard(cardId) {
+  state.kanbanCards = state.kanbanCards.filter(c => c.id !== cardId);
+  saveState();
+  renderKanban();
+}
+
+// ===== PERSONAL =====
+function renderPersonal() {
+  const p = state.personal;
+
+  // Water
+  const waterGrid = document.getElementById('water-grid');
+  waterGrid.innerHTML = Array.from({ length: 8 }, (_, i) => `
+    <div class="water-cup ${i < p.water ? 'filled' : ''}" onclick="toggleWater(${i})">
+      <span>${i < p.water ? '💧' : '○'}</span>
+    </div>
+  `).join('');
+  document.getElementById('water-count-label').textContent = `${p.water} de 8 copos`;
+
+  // Wake time
+  document.getElementById('wake-time').value = p.wakeTime || '';
+
+  // Habits
+  ['leitura', 'lazer', 'treino'].forEach(h => {
+    const el = document.getElementById('check-' + h);
+    el.classList.toggle('checked', !!p.habits[h]);
+    el.textContent = p.habits[h] ? '✓' : '';
+  });
+  document.getElementById('treino-desc').value = p.treinoDesc || '';
+
+  // Mood
+  const moodGrid = document.getElementById('mood-grid');
+  moodGrid.innerHTML = MOODS.map(m => `
+    <button class="mood-btn ${p.todayMood === m.key ? 'selected' : ''}" onclick="selectMood('${m.key}')">
+      <span class="mood-emoji">${m.emoji}</span>
+      <span class="mood-label">${m.label}</span>
+    </button>
+  `).join('');
+
+  const histContainer = document.getElementById('mood-history');
+  if (p.moodHistory && p.moodHistory.length) {
+    histContainer.innerHTML = '<div class="card-title" style="margin-top:12px;">📜 Histórico</div>' +
+      [...p.moodHistory].reverse().slice(0, 7).map(h => {
+        const mood = MOODS.find(m => m.key === h.mood);
+        return `<div class="mood-hist-item"><span class="mhi-emoji">${mood?.emoji || '❓'}</span><span>${h.date}</span><span style="color:var(--text);font-weight:600;">${mood?.label || h.mood}</span></div>`;
+      }).join('');
+  } else {
+    histContainer.innerHTML = '';
+  }
+
+  // Weight
+  document.getElementById('weight-goal').value = p.weightGoal || '';
+  const weightHist = document.getElementById('weight-history');
+  if (p.weightHistory && p.weightHistory.length) {
+    weightHist.innerHTML = '<div class="card-title" style="margin-top:12px;">📜 Histórico</div>' +
+      [...p.weightHistory].reverse().slice(0, 8).map((w, i, arr) => {
+        const prev = arr[i + 1];
+        let diffHtml = '';
+        if (prev) {
+          const diff = (w.weight - prev.weight).toFixed(1);
+          const cls = diff <= 0 ? 'down' : 'up';
+          diffHtml = `<span class="weight-diff ${cls}">${diff > 0 ? '+' : ''}${diff} kg</span>`;
+        }
+        return `<div class="weight-hist-item"><span>${w.date}</span><span style="font-weight:700;">${w.weight} kg</span>${diffHtml}</div>`;
+      }).join('');
+  } else {
+    weightHist.innerHTML = '<div class="empty-state" style="padding:12px;"><span class="emoji" style="font-size:1.5rem;">⚖️</span>Registre seu primeiro peso!</div>';
+  }
+
+  // Metas
+  const metasList = document.getElementById('metas-list');
+  if (p.metas && p.metas.length) {
+    metasList.innerHTML = p.metas.map((m, i) => `
+      <div class="meta-item">
+        <div class="meta-check ${m.achieved ? 'achieved' : ''}" onclick="toggleMeta(${i})">${m.achieved ? '✓' : ''}</div>
+        <span style="${m.achieved ? 'text-decoration:line-through;opacity:0.5;' : ''}">${m.text}</span>
+        <button class="delete-btn" onclick="deleteMeta(${i})">✕</button>
+      </div>
+    `).join('');
+  } else {
+    metasList.innerHTML = '<div style="font-size:0.82rem;color:var(--text-light);padding:8px 0;">Nenhuma meta ainda. Adicione a primeira! 🌟</div>';
+  }
+}
+
+function toggleWater(idx) {
+  const p = state.personal;
+  if (idx < p.water) {
+    p.water = idx;
+  } else {
+    p.water = idx + 1;
+  }
+  if (p.water === 8) showToast('💧 Meta de hidratação atingida! +15 XP');
+  savePersonal();
+  renderPersonal();
+}
+
+function toggleHabit(key) {
+  state.personal.habits[key] = !state.personal.habits[key];
+  if (state.personal.habits[key]) { addXP(10); showToast(`+10 XP ✨ Hábito marcado!`); }
+  savePersonal();
+  renderPersonal();
+}
+
+function selectMood(key) {
+  const p = state.personal;
+  const today = new Date().toLocaleDateString('pt-BR');
+  if (p.todayMood === key) {
+    p.todayMood = null;
+  } else {
+    p.todayMood = key;
+    const existing = p.moodHistory.findIndex(h => h.date === today);
+    if (existing >= 0) {
+      p.moodHistory[existing].mood = key;
+    } else {
+      p.moodHistory.push({ date: today, mood: key });
+    }
+  }
+  savePersonal();
+  renderPersonal();
+}
+
+function addWeight() {
+  const val = parseFloat(document.getElementById('weight-current').value);
+  if (!val || val < 20 || val > 300) return showToast('✨ Digite um peso válido!');
+  const today = new Date().toLocaleDateString('pt-BR');
+  state.personal.weightGoal = document.getElementById('weight-goal').value;
+  state.personal.weightHistory = state.personal.weightHistory || [];
+  state.personal.weightHistory.push({ date: today, weight: val });
+  document.getElementById('weight-current').value = '';
+  showToast('⚖️ Peso registrado!');
+  savePersonal();
+  renderPersonal();
+}
+
+function addMeta() {
+  const text = document.getElementById('meta-input').value.trim();
+  if (!text) return;
+  state.personal.metas = state.personal.metas || [];
+  state.personal.metas.push({ text, achieved: false });
+  document.getElementById('meta-input').value = '';
+  savePersonal();
+  renderPersonal();
+}
+
+function toggleMeta(i) {
+  state.personal.metas[i].achieved = !state.personal.metas[i].achieved;
+  if (state.personal.metas[i].achieved) { addXP(25); showToast('🌟 Meta conquistada! +25 XP'); }
+  savePersonal();
+  renderPersonal();
+}
+
+function deleteMeta(i) {
+  state.personal.metas.splice(i, 1);
+  savePersonal();
+  renderPersonal();
+}
+
+function savePersonal() {
+  state.personal.wakeTime = document.getElementById('wake-time').value;
+  state.personal.treinoDesc = document.getElementById('treino-desc').value;
+  state.personal.weightGoal = document.getElementById('weight-goal').value;
+  saveState();
+}
+
+// ===== TOAST =====
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ===== START =====
+init();
+</script>
+</body>
+</html>
